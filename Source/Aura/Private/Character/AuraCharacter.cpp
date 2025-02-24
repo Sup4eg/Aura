@@ -15,15 +15,3 @@ void AAuraCharacter::BeginPlay()
     
 }
 
-void AAuraCharacter::Tick(float DeltaTime)
-{
-    Super::Tick(DeltaTime);
-
-}
-
-void AAuraCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-    Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
-
