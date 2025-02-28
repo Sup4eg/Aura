@@ -20,7 +20,7 @@ void AAuraPlayerController::PlayerTick(float DeltaSeconds)
 void AAuraPlayerController::CursorTrace()
 {
     FHitResult CursorHit;
-    GetHitResultUnderCursor(ECC_Visibility, false,  CursorHit);
+    GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
     if (!CursorHit.bBlockingHit) return;
     LastActor = ThisActor;
     ThisActor = CursorHit.GetActor();
@@ -41,30 +41,33 @@ void AAuraPlayerController::CursorTrace()
      */
 
     if (!LastActor && ThisActor)
-    {   //Case B
+    {
+        //Case B
         ThisActor->HighlightActor();
-    } else if (LastActor && !ThisActor)
+    }
+    else if (LastActor && !ThisActor)
     {
         //Case C
         LastActor->UnHighlightActor();
-    } else if (LastActor && ThisActor && LastActor != ThisActor)
+    }
+    else if (LastActor && ThisActor && LastActor != ThisActor)
     {
         //Case D
         LastActor->UnHighlightActor();
         ThisActor->HighlightActor();
     }
-    
+
 }
 
 void AAuraPlayerController::BeginPlay()
 {
     Super::BeginPlay();
-    check(AuraContext);
     
-    UEnhancedInputLocalPlayerSubsystem * Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-    check(Subsystem);
-    Subsystem->AddMappingContext(AuraContext, 0);
-
+    check(AuraContext);
+    if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+    {
+        Subsystem->AddMappingContext(AuraContext, 0);
+    }
     bShowMouseCursor = true;
     DefaultMouseCursor = EMouseCursor::Default;
 
@@ -80,7 +83,7 @@ void AAuraPlayerController::SetupInputComponent()
 
     UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
     EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ThisClass::Move);
-    
+
 }
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)

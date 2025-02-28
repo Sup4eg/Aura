@@ -10,6 +10,10 @@
  * 
  */
 
+class UAttributeSet;
+class UAbilitySystemComponent;
+struct FWidgetControllerParams;
+class UOverlayWidgetController;
 class UAuraUserWidget;
 
 UCLASS()
@@ -20,9 +24,17 @@ public:
     UPROPERTY()
     TObjectPtr<UAuraUserWidget> OverlayWidget;
 
-protected:
-    virtual void BeginPlay() override;
+    UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WcParams);
+
+    void InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* Asc, UAttributeSet* As);
+
 private:
     UPROPERTY(EditAnywhere)
     TSubclassOf<UAuraUserWidget> OverlayWidgetClass;
+
+    UPROPERTY()
+    TObjectPtr<UOverlayWidgetController> OverlayWidgetController;
+
+    UPROPERTY(EditAnywhere)
+    TSubclassOf<UOverlayWidgetController> OverlayWidgetControllerClass;
 };
