@@ -16,14 +16,22 @@ void AAuraEffectActor::BeginPlay()
     Super::BeginPlay();
 }
 
-void AAuraEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass)
+void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
     check(GameplayEffectClass);
-    if (UAbilitySystemComponent* TargetAsc = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target))
+    if (UAbilitySystemComponent* TargetAsc = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor))
     {
         FGameplayEffectContextHandle EffectContextHandle = TargetAsc->MakeEffectContext();
         EffectContextHandle.AddSourceObject(this);
         const FGameplayEffectSpecHandle EffectSpecHandle = TargetAsc->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle);
         TargetAsc->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
     }
+}
+
+void AAuraEffectActor::OnOverlap(AActor* TargetActor)
+{
+}
+
+void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
+{
 }
