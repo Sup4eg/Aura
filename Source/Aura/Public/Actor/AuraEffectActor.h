@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameplayEffectTypes.h"
 #include "AuraEffectActor.generated.h"
 
 class UGameplayEffect;
@@ -44,7 +45,7 @@ protected:
 
     UFUNCTION(BlueprintCallable)
     void OnEndOverlap(AActor* TargetActor);
-    
+
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Apply Effects")
     bool bDestroyOnEffectRemoval = true;
 
@@ -68,4 +69,9 @@ protected:
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Applied Effects")
     EEffectRemovalPolicy InfiniteEffectRemovalPolicy = EEffectRemovalPolicy::RemoveOnEndOverlap;
+
+    TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
+    float ActorLevel = 1.f;
 };
