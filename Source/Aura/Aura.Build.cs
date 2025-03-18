@@ -23,5 +23,18 @@ public class Aura : ModuleRules
 			"GameplayTags",
 			"GameplayTasks"
 		});
+		
+		PublicIncludePaths.AddRange(new string[] {
+			"Aura/Public/AbilitySystem",
+			"Aura/Public/Actor",
+			"Aura/Public/Character",
+			"Aura/Public/Game",
+			"Aura/Public/Interaction",
+			"Aura/Public/Player",
+			"Aura/Public/UI",
+			"Aura/Public/UI/HUD",
+			"Aura/Public/UI/Widget",
+			"Aura/Public/UI/WidgetController"
+		});
 	}
 }

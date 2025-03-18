@@ -1,10 +1,11 @@
 // Copyright Fireteam Interactive
 
-#include "GameFramework/Character.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "GameFramework/Character.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
+
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
