@@ -65,18 +65,22 @@ public:
      * Primary Attributes
      */
 
+    //Increase physical damage
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Strength, Category="Primary Attributes")
     FGameplayAttributeData Strength;
     ATTRIBUTE_ACCESSORS(ThisClass, Strength)
 
+    //Increase magical damage, increases mana
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Intelligence, Category="Primary Attributes")
     FGameplayAttributeData Intelligence;
     ATTRIBUTE_ACCESSORS(ThisClass, Intelligence)
 
+    //Increases armor and armor penetration
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Resilience, Category="Primary Attributes")
     FGameplayAttributeData Resilience;
     ATTRIBUTE_ACCESSORS(ThisClass, Resilience)
 
+    //Increase health 
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Vigor, Category="Primary Attributes")
     FGameplayAttributeData Vigor;
     ATTRIBUTE_ACCESSORS(ThisClass, Vigor)
@@ -97,42 +101,52 @@ public:
      * Secondary Attributes
     */
 
+    //Depends on resilience. Reduces damage taken, improves block chance
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category="Secondary Attributes")
     FGameplayAttributeData Armor;
     ATTRIBUTE_ACCESSORS(ThisClass, Armor)
 
+    //Depends on resilience. Ignores percentage of enemy Armor, increases Crit Hit Chance
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ArmorPenetration, Category="Secondary Attributes")
     FGameplayAttributeData ArmorPenetration;
     ATTRIBUTE_ACCESSORS(ThisClass, ArmorPenetration)   
 
+    //Depends on Armor. Chance to cut incoming damage in half
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_BlockChance, Category="Secondary Attributes")
     FGameplayAttributeData BlockChance;
     ATTRIBUTE_ACCESSORS(ThisClass, BlockChance)
 
+    //Depends on ArmorPenetration. Chance to double damage plus critical hit bonus.
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CriticalHitChance, Category="Secondary Attributes")
     FGameplayAttributeData CriticalHitChance;
     ATTRIBUTE_ACCESSORS(ThisClass, CriticalHitChance)
-    
+
+    //Depends on ArmorPenetration. Bonus damage added when a critical hit is scored
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CriticalHitDamage, Category="Secondary Attributes")
     FGameplayAttributeData CriticalHitDamage;
     ATTRIBUTE_ACCESSORS(ThisClass, CriticalHitDamage)
 
+    //Depends on Armor. Reduces critical hit chance of attacking enemies
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_CriticalHitResistance, Category="Secondary Attributes")
     FGameplayAttributeData CriticalHitResistance;
     ATTRIBUTE_ACCESSORS(ThisClass, CriticalHitResistance)   
 
+    //Depends on Vigor. Amount of health regenerated every 1 second
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_HealthRegeneration, Category="Secondary Attributes")
     FGameplayAttributeData HealthRegeneration;
     ATTRIBUTE_ACCESSORS(ThisClass, HealthRegeneration)
 
+    //Depends on Intelligence. Amount of mana regenerated every 1 second
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ManaRegeneration, Category="Secondary Attributes")
     FGameplayAttributeData ManaRegeneration;
     ATTRIBUTE_ACCESSORS(ThisClass, ManaRegeneration)   
-    
+
+    //Depends on Vigor. Maximum amount of Health obtainable
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category="Secondary Attributes")
     FGameplayAttributeData MaxHealth;
     ATTRIBUTE_ACCESSORS(ThisClass, MaxHealth)
-    
+
+    //Depends on Intelligence. Maximum amount of Mana obtainable
     UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxMana, Category="Secondary Attributes")
     FGameplayAttributeData MaxMana;
     ATTRIBUTE_ACCESSORS(ThisClass, MaxMana)
