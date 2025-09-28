@@ -34,6 +34,7 @@ private:
     void AbilityInputTagReleased(FGameplayTag InputTag);
     void AbilityInputTagHeld(FGameplayTag InputTag);
     UAuraAbilitySystemComponent* GetASC();
+    void AutoRun();
 private:
     UPROPERTY(EditAnywhere, Category="Input")
     TObjectPtr<UInputMappingContext> AuraContext;
@@ -43,6 +44,7 @@ private:
 
     TScriptInterface<IEnemyInterface> LastActor;
     TScriptInterface<IEnemyInterface> ThisActor;
+    FHitResult CursorHit;
 
     UPROPERTY(EditDefaultsOnly, Category="Input")
     TObjectPtr<UAuraInputConfig> InputConfig;
