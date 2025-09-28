@@ -7,12 +7,12 @@ public class Aura : ModuleRules
 	public Aura(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-	
+
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
-			"Core", 
-			"CoreUObject", 
-			"Engine", 
+			"Core",
+			"CoreUObject",
+			"Engine",
 			"InputCore",
 			"EnhancedInput",
 			"GameplayAbilities"
@@ -21,10 +21,12 @@ public class Aura : ModuleRules
 		PrivateDependencyModuleNames.AddRange(new string[]
 		{
 			"GameplayTags",
-			"GameplayTasks"
+			"GameplayTasks",
+			"NavigationSystem"
 		});
-		
-		PublicIncludePaths.AddRange(new string[] {
+
+		PublicIncludePaths.AddRange(new string[]
+		{
 			"Aura/Public/AbilitySystem",
 			"Aura/Public/AbilitySystem/ModMagCalc",
 			"Aura/Public/Actor",
