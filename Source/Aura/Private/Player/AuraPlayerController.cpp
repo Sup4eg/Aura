@@ -4,13 +4,17 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AuraAbilitySystemComponent.h"
+#include "AuraGameplayTags.h"
 #include "EnhancedInputSubsystems.h"
+#include "Components/SplineComponent.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
     bReplicates = true;
+
+    Spline = CreateDefaultSubobject<USplineComponent>(TEXT("Spline"));
 }
 
 void AAuraPlayerController::PlayerTick(float DeltaSeconds)
@@ -64,7 +68,11 @@ void AAuraPlayerController::CursorTrace()
 
 void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
-    // GEngine->AddOnScreenDebugMessage(1, 3.f, FColor::Red, *InputTag.ToString());
+    if (InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
+    {
+        bTargeting = ThisActor != nullptr;
+        bAutoRunning = false;
+    }
 }
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
@@ -78,11 +86,36 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
-    if (GetASC() == nullptr)
+    if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
     {
+        if (GetASC())
+        {
+            GetASC()->AbilityInputTagHeld(InputTag);
+        }
         return;
     }
-    GetASC()->AbilityInputTagHeld(InputTag);
+
+    if (bTargeting)
+    {
+        if (GetASC())
+        {
+            GetASC()->AbilityInputTagHeld(InputTag);
+        }
+    } else
+    {
+        FollowTime += GetWorld()->GetDeltaSeconds();
+        FHitResult Hit;
+        if (GetHitResultUnderCursor(ECC_Visibility, false, Hit))
+        {
+            CachedDestination = Hit.ImpactPoint;
+        }
+
+        if (APawn* ControlledPawn = GetPawn())
+        {
+            const FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
+            ControlledPawn->AddMovementInput(WorldDirection);
+        }
+    }
 }
 
 UAuraAbilitySystemComponent* AAuraPlayerController::GetASC()
