@@ -30,9 +30,16 @@ protected:
     void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const;
     void InitializeDefaultAttributes() const;
     void AddCharacterAbilities() const;
+
+    // ICombatInterface
+    virtual FVector GetCombatSocketLocation() const override;
+    //ICombatInterface
 protected:
     UPROPERTY(EditAnywhere, Category="Combat")
     TObjectPtr<USkeletalMeshComponent> Weapon;
+
+    UPROPERTY(EditAnywhere, Category="Combat")
+    FName WeaponTipSocketName;
     
     UPROPERTY()
     TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;

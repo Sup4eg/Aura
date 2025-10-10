@@ -1,13 +1,13 @@
 ﻿// Copyright Fireteam Interactive
 
+#include "AuraProjectile.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
-#include "AuraProjectile.h"
-
 
 AAuraProjectile::AAuraProjectile()
 {
     PrimaryActorTick.bCanEverTick = false;
+    bReplicates = true;
     Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
     SetRootComponent(Sphere);
     Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
