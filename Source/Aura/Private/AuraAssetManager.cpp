@@ -1,6 +1,8 @@
 // Copyright Fireteam Interactive
 
 #include "AuraAssetManager.h"
+
+#include "AbilitySystemGlobals.h"
 #include "AuraGameplayTags.h"
 
 UAuraAssetManager& UAuraAssetManager::Get()
@@ -13,6 +15,8 @@ UAuraAssetManager& UAuraAssetManager::Get()
 void UAuraAssetManager::StartInitialLoading()
 {
     Super::StartInitialLoading();
-
-   FAuraGameplayTags::InitializeNativeGameplayTags(); 
+    FAuraGameplayTags::InitializeNativeGameplayTags();
+    
+    //This is required to use Target data
+    UAbilitySystemGlobals::Get().InitGlobalData();
 }
