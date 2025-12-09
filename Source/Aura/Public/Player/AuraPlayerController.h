@@ -35,6 +35,8 @@ private:
     void AbilityInputTagHeld(FGameplayTag InputTag);
     UAuraAbilitySystemComponent* GetASC();
     void AutoRun();
+    void ShiftPressed() {bShiftKeyDown = true;};
+    void ShiftReleased() {bShiftKeyDown = false;};
 private:
     UPROPERTY(EditAnywhere, Category="Input")
     TObjectPtr<UInputMappingContext> AuraContext;
@@ -42,6 +44,9 @@ private:
     UPROPERTY(EditAnywhere, Category="Input")
     TObjectPtr<UInputAction> MoveAction;
 
+    UPROPERTY(EditAnywhere, Category="Input")
+    TObjectPtr<UInputAction> ShiftAction;
+    
     TScriptInterface<IEnemyInterface> LastActor;
     TScriptInterface<IEnemyInterface> ThisActor;
     FHitResult CursorHit;
@@ -57,6 +62,7 @@ private:
     float ShortPressThreshold = 0.5f;
     bool bAutoRunning = false;
     bool bTargeting = false;
+    bool bShiftKeyDown = false;
     
     UPROPERTY(EditDefaultsOnly)
     float AutoRunAcceptanceRadius = 50.f;
