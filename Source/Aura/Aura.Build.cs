@@ -22,7 +22,8 @@ public class Aura : ModuleRules
 		{
 			"GameplayTags",
 			"GameplayTasks",
-			"NavigationSystem"
+			"NavigationSystem",
+			"Niagara"
 		});
 
 		PublicIncludePaths.AddRange(new string[]

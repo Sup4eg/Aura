@@ -6,6 +6,8 @@
 #include "UObject/Interface.h"
 #include "CombatInterface.generated.h"
 
+class UMotionWarpingComponent;
+
 UINTERFACE(MinimalAPI)
 class UCombatInterface : public UInterface
 {
@@ -22,4 +24,7 @@ class AURA_API ICombatInterface
 public:
     virtual int32 GetPlayerLevel();
     virtual FVector GetCombatSocketLocation() const;
+    
+    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="MotionWarping")
+    void SetFacingTarget(const FVector& TargetLocation);
 };
