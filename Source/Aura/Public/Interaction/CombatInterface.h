@@ -8,7 +8,7 @@
 
 class UMotionWarpingComponent;
 
-UINTERFACE(MinimalAPI)
+UINTERFACE(MinimalAPI, BlueprintType)
 class UCombatInterface : public UInterface
 {
 	GENERATED_BODY()
@@ -27,4 +27,9 @@ public:
     
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category="MotionWarping")
     void SetFacingTarget(const FVector& TargetLocation);
+    
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    UAnimMontage* GetHitReactMontage();
+    
+    virtual void Die() = 0;
 };
