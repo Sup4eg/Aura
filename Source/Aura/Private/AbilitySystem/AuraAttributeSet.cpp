@@ -6,7 +6,9 @@
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 #include "AuraGameplayTags.h"
+#include "AuraPlayerController.h"
 #include "CombatInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
@@ -110,6 +112,18 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
                 TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
                 Props.TargetAsc->TryActivateAbilitiesByTag(TagContainer);
             }
+            ShowFloatingText(Props, LocalIncomingDamage);
+        }
+    }
+}
+
+void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, const float Damage) const
+{
+    if (Props.SourceCharacter != Props.TargetCharacter)
+    {
+        if (AAuraPlayerController* PC = Cast<AAuraPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceCharacter, 0)))
+        {
+            PC->ShowDamageNumber(Damage, Props.TargetCharacter);
         }
     }
 }
