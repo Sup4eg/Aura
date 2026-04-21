@@ -44,15 +44,13 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidge
 
 void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level,  UAbilitySystemComponent* ASC)
 {
-    AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-    if (AuraGameMode == nullptr || ASC == nullptr)
+    if (ASC == nullptr)
     {
         return;
     }
     
-    AActor* AvatarActor = ASC->GetAvatarActor();
-    
-    const UCharacterClassInfo* ClassInfo = AuraGameMode->CharacterClassInfo;
+    const AActor* AvatarActor = ASC->GetAvatarActor();
+    const UCharacterClassInfo* ClassInfo = GetCharacterClassInfo(WorldContextObject);
     if (ClassInfo == nullptr)
     {
         return;
@@ -80,12 +78,11 @@ void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* World
 
 void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
 {
-    AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-    if (AuraGameMode == nullptr || ASC == nullptr)
+    if (ASC == nullptr)
     {
         return;
     }
-    const UCharacterClassInfo* ClassInfo = AuraGameMode->CharacterClassInfo;
+    const UCharacterClassInfo* ClassInfo = GetCharacterClassInfo(WorldContextObject);
     if (ClassInfo == nullptr)
     {
         return;
@@ -95,4 +92,14 @@ void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContext
         FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
         ASC->GiveAbility(AbilitySpec);
     }
+}
+
+UCharacterClassInfo* UAuraAbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
+{
+    AAuraGameModeBase* AuraGameMode = Cast<AAuraGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+    if (AuraGameMode == nullptr)
+    {
+        return nullptr;
+    }
+    return AuraGameMode->CharacterClassInfo;
 }
