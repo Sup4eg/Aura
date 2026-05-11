@@ -3,15 +3,15 @@
 #include "AuraAbilityTypes.generated.h"
 
 USTRUCT(BlueprintType)
-struct FAuraGameplayEffectContext : FGameplayEffectContext 
+struct FAuraGameplayEffectContext : public FGameplayEffectContext
 {
     GENERATED_BODY()
 public:
     bool IsCriticalHit() const { return bIsCriticalHit; }
-    bool IsBlocked() const { return bIsBlocked; }
+    bool IsBlocked() const { return bIsBlockedHit; }
     
     void SetIsCriticalHit(const bool bInIsCriticalHit) { bIsCriticalHit = bInIsCriticalHit; }
-    void SetIsBlocked(const bool bInIsBlocked) { bIsBlocked = bInIsBlocked; }
+    void SetIsBlockedHit(const bool bInIsBlocked) { bIsBlockedHit = bInIsBlocked; }
     
     virtual UScriptStruct* GetScriptStruct() const override
     {
@@ -22,7 +22,7 @@ public:
     
 protected:
     UPROPERTY()
-    bool bIsBlocked = false;
+    bool bIsBlockedHit = false;
     
     UPROPERTY()
     bool bIsCriticalHit = false;

@@ -5,11 +5,13 @@ using System.Collections.Generic;
 
 public class AuraTarget : TargetRules
 {
-	public AuraTarget(TargetInfo Target) : base(Target)
-	{
-		Type = TargetType.Game;
-		DefaultBuildSettings = BuildSettingsVersion.V4;
+    public AuraTarget(TargetInfo Target) : base(Target)
+    {
+        Type = TargetType.Game;
 
-		ExtraModuleNames.AddRange( new string[] { "Aura" } );
-	}
+        DefaultBuildSettings = BuildSettingsVersion.V6;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_7;
+
+        ExtraModuleNames.AddRange(new string[] { "Aura" });
+    }
 }
