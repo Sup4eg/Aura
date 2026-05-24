@@ -3,6 +3,7 @@
 #include "AbilitySystem/AuraAttributeSet.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AuraAbilitySystemLibrary.h"
 #include "GameplayEffectExtension.h"
 #include "Net/UnrealNetwork.h"
 #include "AuraGameplayTags.h"
@@ -112,12 +113,14 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallba
                 TagContainer.AddTag(FAuraGameplayTags::Get().Effects_HitReact);
                 Props.TargetAsc->TryActivateAbilitiesByTag(TagContainer);
             }
-            ShowFloatingText(Props, LocalIncomingDamage);
+            const bool bBlock = UAuraAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
+            const bool bCriticalHit = UAuraAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
+            ShowFloatingText(Props, LocalIncomingDamage, bBlock, bCriticalHit);
         }
     }
 }
 
-void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, const float Damage) const
+void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, const float Damage, bool bBlockedHit, bool bCriticalHit) const
 {
     if (Props.SourceCharacter != Props.TargetCharacter)
     {

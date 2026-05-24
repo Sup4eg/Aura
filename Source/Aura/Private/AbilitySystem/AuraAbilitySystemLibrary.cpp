@@ -4,6 +4,7 @@
 #include "AbilitySystem/AuraAbilitySystemLibrary.h"
 
 #include "AbilitySystemComponent.h"
+#include "AuraAbilityTypes.h"
 #include "AuraGameModeBase.h"
 #include "AuraHUD.h"
 #include "AuraPlayerState.h"
@@ -42,37 +43,41 @@ UAttributeMenuWidgetController* UAuraAbilitySystemLibrary::GetAttributeMenuWidge
     return nullptr;
 }
 
-void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level,  UAbilitySystemComponent* ASC)
+void UAuraAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level,
+    UAbilitySystemComponent* ASC)
 {
     if (ASC == nullptr)
     {
         return;
     }
-    
+
     const AActor* AvatarActor = ASC->GetAvatarActor();
     const UCharacterClassInfo* ClassInfo = GetCharacterClassInfo(WorldContextObject);
     if (ClassInfo == nullptr)
     {
         return;
     }
-    
-    FGameplayEffectContextHandle PrimaryAttributesContextHandle =  ASC->MakeEffectContext();
+
+    FGameplayEffectContextHandle PrimaryAttributesContextHandle = ASC->MakeEffectContext();
     PrimaryAttributesContextHandle.AddSourceObject(AvatarActor);
-    
+
     FCharacterClassDefaultInfo ClassDefaultInfo = ClassInfo->GetClassDefaultInfo(CharacterClass);
-    const FGameplayEffectSpecHandle PrimaryAttributesSpecHandle = ASC->MakeOutgoingSpec(ClassDefaultInfo.PrimaryAttributes, Level, PrimaryAttributesContextHandle);
+    const FGameplayEffectSpecHandle PrimaryAttributesSpecHandle = ASC->MakeOutgoingSpec(ClassDefaultInfo.PrimaryAttributes, Level,
+        PrimaryAttributesContextHandle);
     ASC->ApplyGameplayEffectSpecToSelf(*PrimaryAttributesSpecHandle.Data);
-    
-    FGameplayEffectContextHandle SecondaryAttributesContextHandle =  ASC->MakeEffectContext();
+
+    FGameplayEffectContextHandle SecondaryAttributesContextHandle = ASC->MakeEffectContext();
     SecondaryAttributesContextHandle.AddSourceObject(AvatarActor);
-    
-    const FGameplayEffectSpecHandle SecondaryAttributesSpecHandle = ASC->MakeOutgoingSpec(ClassInfo->SecondaryAttributes, Level, SecondaryAttributesContextHandle);
+
+    const FGameplayEffectSpecHandle SecondaryAttributesSpecHandle = ASC->MakeOutgoingSpec(ClassInfo->SecondaryAttributes, Level,
+        SecondaryAttributesContextHandle);
     ASC->ApplyGameplayEffectSpecToSelf(*SecondaryAttributesSpecHandle.Data);
-    
-    FGameplayEffectContextHandle VitalAttributesContextHandle =  ASC->MakeEffectContext();
+
+    FGameplayEffectContextHandle VitalAttributesContextHandle = ASC->MakeEffectContext();
     VitalAttributesContextHandle.AddSourceObject(AvatarActor);
-    
-    const FGameplayEffectSpecHandle VitalAttributesSpecHandle = ASC->MakeOutgoingSpec(ClassInfo->VitalAttributes, Level, VitalAttributesContextHandle);
+
+    const FGameplayEffectSpecHandle VitalAttributesSpecHandle = ASC->MakeOutgoingSpec(ClassInfo->VitalAttributes, Level,
+        VitalAttributesContextHandle);
     ASC->ApplyGameplayEffectSpecToSelf(*VitalAttributesSpecHandle.Data);
 }
 
@@ -87,7 +92,7 @@ void UAuraAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContext
     {
         return;
     }
-    for (const auto& AbilityClass:  ClassInfo->CommonAbilities)
+    for (const auto& AbilityClass : ClassInfo->CommonAbilities)
     {
         FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
         ASC->GiveAbility(AbilitySpec);
@@ -102,4 +107,38 @@ UCharacterClassInfo* UAuraAbilitySystemLibrary::GetCharacterClassInfo(const UObj
         return nullptr;
     }
     return AuraGameMode->CharacterClassInfo;
+}
+
+bool UAuraAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+    if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+    {
+        return AuraEffectContext->IsBlockedHit();
+    }
+    return false;
+}
+
+bool UAuraAbilitySystemLibrary::IsCriticalHit(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+    if (const FAuraGameplayEffectContext* AuraEffectContext = static_cast<const FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+    {
+        return AuraEffectContext->IsCriticalHit();
+    }
+    return false;
+}
+
+void UAuraAbilitySystemLibrary::SetIsBlockedHit(FGameplayEffectContextHandle& EffectContextHandle, const bool bInIsBlockedHit)
+{
+    if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+    {
+        AuraEffectContext->SetIsBlockedHit(bInIsBlockedHit);
+    }
+}
+
+void UAuraAbilitySystemLibrary::SetIsCriticalHit(FGameplayEffectContextHandle& EffectContextHandle, const bool bInIsCriticalHit)
+{
+    if (FAuraGameplayEffectContext* AuraEffectContext = static_cast<FAuraGameplayEffectContext*>(EffectContextHandle.Get()))
+    {
+        AuraEffectContext->SetIsCriticalHit(bInIsCriticalHit);
+    }
 }
